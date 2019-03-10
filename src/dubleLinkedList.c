@@ -89,7 +89,7 @@ int a2gs_LinkedList_Create(a2gs_LinkedList_Control_t **list)
 
 void * a2gs_LinkedList_Fetch(a2gs_LinkedList_Control_t *list)
 {
-	void *value;
+	void *value = NULL;
 
 	A2GS_LINKEDLIST_CLEAN_ERRO(list);
 
@@ -275,7 +275,7 @@ a2gs_LinkedList_Node_t * a2gs_LinkedList_SearchNode(a2gs_LinkedList_Control_t *l
 
 a2gs_LinkedList_Node_t * a2gs_LinkedList_SearchNode(a2gs_LinkedList_Control_t *list, void *value, size_t valueSize, unsigned int offset)
 {
-	a2gs_LinkedList_Node_t *node;
+	a2gs_LinkedList_Node_t *node = NULL;
 
 	A2GS_LINKEDLIST_CLEAN_ERRO(list);
 
@@ -301,7 +301,7 @@ a2gs_LinkedList_Node_t * a2gs_LinkedList_SearchNode(a2gs_LinkedList_Control_t *l
  */
 int a2gs_LinkedList_DeleteTopValue(a2gs_LinkedList_Control_t *list)
 {
-	a2gs_LinkedList_Node_t *node;
+	a2gs_LinkedList_Node_t *node = NULL;
 
 	A2GS_LINKEDLIST_CLEAN_ERRO(list);
 
@@ -430,7 +430,8 @@ void a2gs_LinkedList_Destroy(a2gs_LinkedList_Control_t *list)
 
 
 /* TODO: SAMPLE USAGE */
-int main(){
+int main(int argc, char *argv[])
+{
 
 	printf("TODO: a API sample usage\n");
 
