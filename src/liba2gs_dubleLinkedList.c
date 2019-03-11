@@ -1,7 +1,7 @@
 /* Andre Augusto Giannotti Scota
  * andre.scota@gmail.com
  *
- * A Duble Linked List API
+ * A Duble Linked List (DLL) API
  *
  * Public Doamin
  *
@@ -24,17 +24,17 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
-#include "dubleLinkedList.h"
+#include "liba2gs_dubleLinkedList.h"
 
 
 /* *** DEFINES AND LOCAL DATA TYPE DEFINATION *** */
-#define A2GS_LINKEDLIST_CLEAN_ERRO(__list_){                                       \
-                                            (__list_)->erro = a2gs_LinkedList_EOk; \
+#define A2GS_DLL_CLEAN_ERRO(__list_){                                       \
+                                            (__list_)->erro = a2gs_DLL_EOk; \
                                             (__list_)->erroMsg[0] = '\0';          \
 	                                        }
-#define A2GS_LINKEDLIST_SET_ERRO(__list_, __erro_, __erroMsg_){                                                                        \
+#define A2GS_DLL_SET_ERRO(__list_, __erro_, __erroMsg_){                                                                        \
                                                                 (__list_)->erro = __erro_;                                             \
-                                                                strncpy((__list_)->erroMsg, __erroMsg_, A2GS_LINKEDLIST_ERROMSG_SIZE); \
+                                                                strncpy((__list_)->erroMsg, __erroMsg_, A2GS_DLL_ERROMSG_SIZE); \
 	                                                           }
 
 
@@ -46,7 +46,7 @@
 
 /* ------------------------------------------------------------------------------------------- */
 
-/* int a2gs_LinkedList_CreateLinkedList(a2gs_LinkedList_Control_t **list)
+/* int a2gs_DLL_CreateDLL(a2gs_DLL_Control_t **list)
  *
  * Cria/Inicializa uma lista encadeada.
  *
@@ -54,30 +54,30 @@
  *  list     - Ponteiro de ponteiro para uma struct de controle de uma lista criada
  * OUTPUT:
  *  list     - Ponteiro de ponteiro para uma struct de controle de uma lista criada, ou NULL caso de erro
- *  A2GS_LINKEDLIST_OK   - Criacao Ok
- *  A2GS_LINKEDLIST_ERRO - Erro na criacao
+ *  A2GS_DLL_OK   - Criacao Ok
+ *  A2GS_DLL_ERRO - Erro na criacao
  */
-int a2gs_LinkedList_Create(a2gs_LinkedList_Control_t **list)
+int a2gs_DLL_Create(a2gs_DLL_Control_t **list)
 {
-	if((*list = (a2gs_LinkedList_Control_t *)malloc(sizeof(a2gs_LinkedList_Control_t))) == NULL){
+	if((*list = (a2gs_DLL_Control_t *)malloc(sizeof(a2gs_DLL_Control_t))) == NULL){
 		(*list) = NULL;
-		return(A2GS_LINKEDLIST_ERRO);
+		return(A2GS_DLL_ERRO);
 	}
 
-	memset(*list, 0, sizeof(a2gs_LinkedList_Control_t));
+	memset(*list, 0, sizeof(a2gs_DLL_Control_t));
 
 	(*list)->start = NULL;
 	(*list)->end = NULL;
 	(*list)->now = NULL;
 	(*list)->total = 0;
 
-	A2GS_LINKEDLIST_CLEAN_ERRO(*list)
+	A2GS_DLL_CLEAN_ERRO(*list)
 
-	return(A2GS_LINKEDLIST_OK);
+	return(A2GS_DLL_OK);
 }
 
 
-/* void * a2gs_LinkedList_FetchLinkedList(a2gs_LinkedList_Control_t *list)
+/* void * a2gs_DLL_FetchDLL(a2gs_DLL_Control_t *list)
  *
  * Retorna o valor apontado pelo ponteiro de 'fetching' de uma determinada lista.
  *
@@ -87,17 +87,17 @@ int a2gs_LinkedList_Create(a2gs_LinkedList_Control_t **list)
  *  Endereco do valor apontado
  */
 
-void * a2gs_LinkedList_Fetch(a2gs_LinkedList_Control_t *list)
+void * a2gs_DLL_Fetch(a2gs_DLL_Control_t *list)
 {
 	void *value = NULL;
 
-	A2GS_LINKEDLIST_CLEAN_ERRO(list);
+	A2GS_DLL_CLEAN_ERRO(list);
 
 	if(list->now != NULL){
 		value = list->now->value;
 		list->now = list->now->next;
 	}else{
-		A2GS_LINKEDLIST_SET_ERRO(list, a2gs_LinkedList_ENoMoreNodes, A2GS_LINKEDLIST_MSG2);
+		A2GS_DLL_SET_ERRO(list, a2gs_DLL_ENoMoreNodes, A2GS_DLL_MSG2);
 		value = NULL;
 	}
 
@@ -105,7 +105,7 @@ void * a2gs_LinkedList_Fetch(a2gs_LinkedList_Control_t *list)
 }
 
 
-/* void a2gs_LinkedList_StartFetchLinkedList(a2gs_LinkedList_Control_t *list)
+/* void a2gs_DLL_StartFetch(a2gs_DLL_Control_t *list)
  *
  * Inicializa o fetch para inicio da lista.
  *
@@ -114,16 +114,16 @@ void * a2gs_LinkedList_Fetch(a2gs_LinkedList_Control_t *list)
  * OUTPUT:
  *  Nenhum
  */
-void a2gs_LinkedList_StartFetch(a2gs_LinkedList_Control_t *list)
+void a2gs_DLL_StartFetch(a2gs_DLL_Control_t *list)
 {
-	A2GS_LINKEDLIST_CLEAN_ERRO(list);
+	A2GS_DLL_CLEAN_ERRO(list);
 
 	list->now = list->start;
 	return;
 }
 
 
-/* int a2gs_LinkedList_AddNodeLinkedList(a2gs_LinkedList_Control_t *list, void *value, size_t valueSize)
+/* int a2gs_DLL_AddNode(a2gs_DLL_Control_t *list, void *value, size_t valueSize)
  *
  * Adiciona um node em uma determinada lista encadeada.
  *
@@ -132,30 +132,30 @@ void a2gs_LinkedList_StartFetch(a2gs_LinkedList_Control_t *list)
  *  value     - Valor a ser procurado
  *  valueSize - Tamanho do dado que aponta value
  * OUTPUT:
- *  A2GS_LINKEDLIST_OK    - Insercao Ok
- *  A2GS_LINKEDLIST_ERRO  - Erro na insercao
+ *  A2GS_DLL_OK    - Insercao Ok
+ *  A2GS_DLL_ERRO  - Erro na insercao
  */
-int a2gs_LinkedList_AddNode(a2gs_LinkedList_Control_t *list, void *value, size_t valueSize)
+int a2gs_DLL_AddNode(a2gs_DLL_Control_t *list, void *value, size_t valueSize)
 {
-	a2gs_LinkedList_Node_t *node = NULL;
+	a2gs_DLL_Node_t *node = NULL;
 
-	A2GS_LINKEDLIST_CLEAN_ERRO(list);
+	A2GS_DLL_CLEAN_ERRO(list);
 
-	if((node = (a2gs_LinkedList_Node_t *)malloc(sizeof(a2gs_LinkedList_Node_t))) == NULL){
-		char erroMsgAux[A2GS_LINKEDLIST_ERROMSG_SIZE + 1] = {0};
+	if((node = (a2gs_DLL_Node_t *)malloc(sizeof(a2gs_DLL_Node_t))) == NULL){
+		char erroMsgAux[A2GS_DLL_ERROMSG_SIZE + 1] = {0};
 
-		snprintf(erroMsgAux, A2GS_LINKEDLIST_ERROMSG_SIZE, A2GS_LINKEDLIST_MSG1, strerror(errno));
-		A2GS_LINKEDLIST_SET_ERRO(list, a2gs_LinkedList_EAllocMemory, erroMsgAux);
-		return(A2GS_LINKEDLIST_ERRO);
+		snprintf(erroMsgAux, A2GS_DLL_ERROMSG_SIZE, A2GS_DLL_MSG1, strerror(errno));
+		A2GS_DLL_SET_ERRO(list, a2gs_DLL_EAllocMemory, erroMsgAux);
+		return(A2GS_DLL_ERRO);
 	}
 
 	/* we take a value copy */
 	if((node->value = malloc(valueSize)) == NULL){
-		char erroMsgAux[A2GS_LINKEDLIST_ERROMSG_SIZE + 1] = {0};
+		char erroMsgAux[A2GS_DLL_ERROMSG_SIZE + 1] = {0};
 
-		snprintf(erroMsgAux, A2GS_LINKEDLIST_ERROMSG_SIZE, A2GS_LINKEDLIST_MSG3, strerror(errno));
-		A2GS_LINKEDLIST_SET_ERRO(list, a2gs_LinkedList_EAllocMemory, erroMsgAux);
-		return(A2GS_LINKEDLIST_ERRO);
+		snprintf(erroMsgAux, A2GS_DLL_ERROMSG_SIZE, A2GS_DLL_MSG3, strerror(errno));
+		A2GS_DLL_SET_ERRO(list, a2gs_DLL_EAllocMemory, erroMsgAux);
+		return(A2GS_DLL_ERRO);
 	}
 
 	memcpy(node->value, value, valueSize);
@@ -173,11 +173,11 @@ int a2gs_LinkedList_AddNode(a2gs_LinkedList_Control_t *list, void *value, size_t
 
 	list->total++;
 
-	return(A2GS_LINKEDLIST_OK);
+	return(A2GS_DLL_OK);
 }
 
 
-/* void * a2gs_LinkedList_GetLastValueLinkedList(a2gs_LinkedList_Control_t *list)
+/* void * a2gs_DLL_GetLastValue(a2gs_DLL_Control_t *list)
  *
  * Retorna o valor do ultimo node.
  *
@@ -186,14 +186,14 @@ int a2gs_LinkedList_AddNode(a2gs_LinkedList_Control_t *list, void *value, size_t
  * OUTPUT:
  *  Retorna ponteiro para o valor do ultimo node ou NULL caso nao exista nenhum
  */
-void * a2gs_LinkedList_GetLastValue(a2gs_LinkedList_Control_t *list)
+void * a2gs_DLL_GetLastValue(a2gs_DLL_Control_t *list)
 {
-	A2GS_LINKEDLIST_CLEAN_ERRO(list);
+	A2GS_DLL_CLEAN_ERRO(list);
 	return(list->end->value);
 }
 
 
-/* int a2gs_LinkedList_RemoveNodeValueLinkedList(a2gs_LinkedList_Control_t *list, a2gs_LinkedList_Node_t *node)
+/* int a2gs_DLL_RemoveNodeValue(a2gs_DLL_Control_t *list, a2gs_DLL_Node_t *node)
  *
  * Remove um node e o valor associado em uma determinada lista encadeada.
  *
@@ -201,12 +201,12 @@ void * a2gs_LinkedList_GetLastValue(a2gs_LinkedList_Control_t *list)
  *  list     - Ponteiro para uma struct de controle de uma lista
  *  node     - Node a ser removido
  * OUTPUT:
- *  A2GS_LINKEDLIST_OK   - Valor achado e removido
- *  A2GS_LINKEDLIST_ERRO - Valor nao localizado
+ *  A2GS_DLL_OK   - Valor achado e removido
+ *  A2GS_DLL_ERRO - Valor nao localizado
  */
-int a2gs_LinkedList_RemoveNodeValue(a2gs_LinkedList_Control_t *list, a2gs_LinkedList_Node_t *node)
+int a2gs_DLL_RemoveNodeValue(a2gs_DLL_Control_t *list, a2gs_DLL_Node_t *node)
 {
-	A2GS_LINKEDLIST_CLEAN_ERRO(list);
+	A2GS_DLL_CLEAN_ERRO(list);
 
 	if((node == list->start) && (node == list->end)){
 		/* It is a alone node */
@@ -224,8 +224,8 @@ int a2gs_LinkedList_RemoveNodeValue(a2gs_LinkedList_Control_t *list, a2gs_Linked
 		node->prev->next = node->next;
 		node->next->prev = node->prev;
 	}else{
-		A2GS_LINKEDLIST_SET_ERRO(list, a2gs_LinkedList_EUnknowNode, A2GS_LINKEDLIST_MSG4);
-		return(A2GS_LINKEDLIST_ERRO);
+		A2GS_DLL_SET_ERRO(list, a2gs_DLL_EUnknowNode, A2GS_DLL_MSG4);
+		return(A2GS_DLL_ERRO);
 	}
 
 	free(node->value);
@@ -233,22 +233,22 @@ int a2gs_LinkedList_RemoveNodeValue(a2gs_LinkedList_Control_t *list, a2gs_Linked
 
 	list->total--;
 
-	return(A2GS_LINKEDLIST_OK);
+	return(A2GS_DLL_OK);
 }
 
-void * a2gs_LinkedList_GetCurrentNodeValure(a2gs_LinkedList_Control_t *list)
+void * a2gs_DLL_GetCurrentNodeValure(a2gs_DLL_Control_t *list)
 {
-	A2GS_LINKEDLIST_CLEAN_ERRO(list);
+	A2GS_DLL_CLEAN_ERRO(list);
 
 	return(list->now->value);
 }
 
-void * a2gs_LinkedList_GetValueFromThisNode(a2gs_LinkedList_Node_t *node){
+void * a2gs_DLL_GetValueFromThisNode(a2gs_DLL_Node_t *node){
 	return(node->value);
 }
 
 /* TODO begin */
-/* a2gs_LinkedList_Node_t * a2gs_LinkedList_SearchNodeLinkedList(a2gs_LinkedList_Control_t *list, void *value, size_t valueSize)
+/* a2gs_DLL_Node_t * a2gs_DLL_SearchNode(a2gs_DLL_Control_t *list, void *value, size_t valueSize)
  *
  * Procura um node em uma determinada lista encadeada.
  *
@@ -268,16 +268,16 @@ int compare(x,y){
 		0;
 }
 
-a2gs_LinkedList_Node_t * a2gs_LinkedList_SearchNode(a2gs_LinkedList_Control_t *list, void *value, int compare(void *, void *))
+a2gs_DLL_Node_t * a2gs_DLL_SearchNode(a2gs_DLL_Control_t *list, void *value, int compare(void *, void *))
 
 >>>>>>>>>>>>>>>>>>>>> USAR offsetof() em stderr.h !!!!!!! <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 */
 
-a2gs_LinkedList_Node_t * a2gs_LinkedList_SearchNode(a2gs_LinkedList_Control_t *list, void *value, size_t valueSize, unsigned int offset)
+a2gs_DLL_Node_t * a2gs_DLL_SearchNode(a2gs_DLL_Control_t *list, void *value, size_t valueSize, unsigned int offset)
 {
-	a2gs_LinkedList_Node_t *node = NULL;
+	a2gs_DLL_Node_t *node = NULL;
 
-	A2GS_LINKEDLIST_CLEAN_ERRO(list);
+	A2GS_DLL_CLEAN_ERRO(list);
 
 	for(node = list->start; node != NULL; node = node->next){
 		if(memcmp(value, ((char *)(node->value))+offset, valueSize) == 0)
@@ -289,27 +289,27 @@ a2gs_LinkedList_Node_t * a2gs_LinkedList_SearchNode(a2gs_LinkedList_Control_t *l
 /* TODO end */
 
 
-/* int a2gs_LinkedList_DeleteTopValueLinkedList(a2gs_LinkedList_Control_t *list)
+/* int a2gs_DLL_DeleteTopValue(a2gs_DLL_Control_t *list)
  *
  * Remove da memoria o node do topo da lista.
  *
  * INPUT:
  *  list     - Ponteiro para uma struct de controle de uma lista
  * OUTPUT:
- *  A2GS_LINKEDLIST_OK   - Delecao Ok
- *  A2GS_LINKEDLIST_ERRO - Erro na delecao
+ *  A2GS_DLL_OK   - Delecao Ok
+ *  A2GS_DLL_ERRO - Erro na delecao
  */
-int a2gs_LinkedList_DeleteTopValue(a2gs_LinkedList_Control_t *list)
+int a2gs_DLL_DeleteTopValue(a2gs_DLL_Control_t *list)
 {
-	a2gs_LinkedList_Node_t *node = NULL;
+	a2gs_DLL_Node_t *node = NULL;
 
-	A2GS_LINKEDLIST_CLEAN_ERRO(list);
+	A2GS_DLL_CLEAN_ERRO(list);
 
 	node = list->start;
 
 	if(node == NULL){
-		A2GS_LINKEDLIST_SET_ERRO(list, a2gs_LinkedList_ENoMoreNodes, A2GS_LINKEDLIST_MSG5);
-		return(A2GS_LINKEDLIST_ERRO);
+		A2GS_DLL_SET_ERRO(list, a2gs_DLL_ENoMoreNodes, A2GS_DLL_MSG5);
+		return(A2GS_DLL_ERRO);
 	}
 
 	if(node->next == NULL){
@@ -323,48 +323,48 @@ int a2gs_LinkedList_DeleteTopValue(a2gs_LinkedList_Control_t *list)
 	free(node->value);
 	free(node);
 
-	return(A2GS_LINKEDLIST_OK);
+	return(A2GS_DLL_OK);
 }
 
 
-/* unsigned long a2gs_LinkedList_GetTotal(a2gs_LinkedList_Control_t *list){
+/* unsigned long a2gs_DLL_GetTotal(a2gs_DLL_Control_t *list){
  *
  * Retorna o total de elementos.
  *
  * INPUT:
  *  list     - Ponteiro para uma struct de controle de uma lista
  * OUTPUT:
- *  A2GS_LINKEDLIST_OK   -
- *  A2GS_LINKEDLIST_ERRO -
+ *  A2GS_DLL_OK   -
+ *  A2GS_DLL_ERRO -
  */
-unsigned long a2gs_LinkedList_GetTotal(a2gs_LinkedList_Control_t *list){
-	A2GS_LINKEDLIST_CLEAN_ERRO(list);
+unsigned long a2gs_DLL_GetTotal(a2gs_DLL_Control_t *list){
+	A2GS_DLL_CLEAN_ERRO(list);
 
 	return(list->total);
 }
 
 
-/* int a2gs_LinkedList_DeleteBottomValueLinkedList(a2gs_LinkedList_Control_t *list)
+/* int a2gs_DLL_DeleteBottomValue(a2gs_DLL_Control_t *list)
  *
  * Remove da memoria o node do fim da lista.
  *
  * INPUT:
  *  list     - Ponteiro para uma struct de controle de uma lista
  * OUTPUT:
- *  A2GS_LINKEDLIST_OK   - Delecao Ok
- *  A2GS_LINKEDLIST_ERRO - Erro na delecao
+ *  A2GS_DLL_OK   - Delecao Ok
+ *  A2GS_DLL_ERRO - Erro na delecao
  */
-int a2gs_LinkedList_DeleteBottomValue(a2gs_LinkedList_Control_t *list)
+int a2gs_DLL_DeleteBottomValue(a2gs_DLL_Control_t *list)
 {
-	a2gs_LinkedList_Node_t *node = NULL;
+	a2gs_DLL_Node_t *node = NULL;
 
-	A2GS_LINKEDLIST_CLEAN_ERRO(list);
+	A2GS_DLL_CLEAN_ERRO(list);
 
 	node = list->end;
 
 	if(node == NULL){
-		A2GS_LINKEDLIST_SET_ERRO(list, a2gs_LinkedList_ENoMoreNodes, A2GS_LINKEDLIST_MSG5);
-		return(A2GS_LINKEDLIST_ERRO);
+		A2GS_DLL_SET_ERRO(list, a2gs_DLL_ENoMoreNodes, A2GS_DLL_MSG5);
+		return(A2GS_DLL_ERRO);
 	}
 
 	if(node->prev == NULL){
@@ -377,11 +377,11 @@ int a2gs_LinkedList_DeleteBottomValue(a2gs_LinkedList_Control_t *list)
 
 	free(node->value);
 	free(node);
-	return(A2GS_LINKEDLIST_OK);
+	return(A2GS_DLL_OK);
 }
 
 
-/* int a2gs_LinkedList_DeleteLinkedList(a2gs_LinkedList_Control_t *list)
+/* int a2gs_DLL_Delete(a2gs_DLL_Control_t *list)
  *
  * Remove da memoria todos os nodes e a struct de controle de uma determinada lista encadeada.
  * (Deixa a lista vazia)
@@ -389,14 +389,14 @@ int a2gs_LinkedList_DeleteBottomValue(a2gs_LinkedList_Control_t *list)
  * INPUT:
  *  list     - Ponteiro para uma struct de controle de uma lista
  * OUTPUT:
- *  A2GS_LINKEDLIST_OK   - Delecao Ok
- *  A2GS_LINKEDLIST_ERRO - Erro na delecao
+ *  A2GS_DLL_OK   - Delecao Ok
+ *  A2GS_DLL_ERRO - Erro na delecao
  */
-int a2gs_LinkedList_Delete(a2gs_LinkedList_Control_t *list)
+int a2gs_DLL_Delete(a2gs_DLL_Control_t *list)
 {
-	a2gs_LinkedList_Node_t *node = NULL, *nextSaved = NULL;
+	a2gs_DLL_Node_t *node = NULL, *nextSaved = NULL;
 
-	A2GS_LINKEDLIST_CLEAN_ERRO(list);
+	A2GS_DLL_CLEAN_ERRO(list);
 
 	for(node = nextSaved = list->start; nextSaved != NULL; node = nextSaved){
 		nextSaved = node->next;
@@ -407,11 +407,11 @@ int a2gs_LinkedList_Delete(a2gs_LinkedList_Control_t *list)
 	list->start = list->end = NULL;
 	list->total = 0;
 
-	return(A2GS_LINKEDLIST_OK);
+	return(A2GS_DLL_OK);
 }
 
 
-/* void a2gs_LinkedList_DestroyLinkedList(a2gs_LinkedList_Control_t *list)
+/* void a2gs_DLL_Destroy(a2gs_DLL_Control_t *list)
  *
  * Remove da memoria a estrutura de controle de uma lista.
  *
@@ -420,9 +420,9 @@ int a2gs_LinkedList_Delete(a2gs_LinkedList_Control_t *list)
  * OUTPUT:
  *  Nenhum
  */
-void a2gs_LinkedList_Destroy(a2gs_LinkedList_Control_t *list)
+void a2gs_DLL_Destroy(a2gs_DLL_Control_t *list)
 {
-	A2GS_LINKEDLIST_CLEAN_ERRO(list);
+	A2GS_DLL_CLEAN_ERRO(list);
 
 	free(list);
 	return;
@@ -430,6 +430,7 @@ void a2gs_LinkedList_Destroy(a2gs_LinkedList_Control_t *list)
 
 
 /* TODO: SAMPLE USAGE */
+#if 0
 int main(int argc, char *argv[])
 {
 
@@ -437,3 +438,4 @@ int main(int argc, char *argv[])
 
 	return(0);
 }
+#endif
