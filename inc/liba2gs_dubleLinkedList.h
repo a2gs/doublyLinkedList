@@ -73,6 +73,7 @@ typedef struct _a2gs_DLL_Control_t{
 int a2gs_DLL_Create(a2gs_DLL_Control_t **list);
 void a2gs_DLL_StartFetch(a2gs_DLL_Control_t *list);
 void * a2gs_DLL_Fetch(a2gs_DLL_Control_t *list);
+void * a2gs_DLL_Previous(a2gs_DLL_Control_t *list);
 int a2gs_DLL_AddNode(a2gs_DLL_Control_t *list, void *value, size_t valueSize);
 void * a2gs_DLL_GetLastValue(a2gs_DLL_Control_t *list);
 int a2gs_DLL_RemoveNodeValue(a2gs_DLL_Control_t *list, a2gs_DLL_Node_t *node);

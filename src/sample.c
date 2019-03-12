@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
 ---int a2gs_DLL_Create(a2gs_DLL_Control_t **list);
 ---void a2gs_DLL_StartFetch(a2gs_DLL_Control_t *list);                                                                 
 ---void * a2gs_DLL_Fetch(a2gs_DLL_Control_t *list);
+void * a2gs_DLL_Previous(a2gs_DLL_Control_t *list);
 ---int a2gs_DLL_AddNode(a2gs_DLL_Control_t *list, void *value, size_t valueSize);
 void * a2gs_DLL_GetLastValue(a2gs_DLL_Control_t *list);
 int a2gs_DLL_RemoveNodeValue(a2gs_DLL_Control_t *list, a2gs_DLL_Node_t *node);
@@ -84,8 +85,8 @@ a2gs_DLL_Node_t * a2gs_DLL_SearchNode(a2gs_DLL_Control_t *list, void *value, siz
 int a2gs_DLL_DeleteTopValue(a2gs_DLL_Control_t *list);
 ---unsigned long a2gs_DLL_GetTotal(a2gs_DLL_Control_t *list);
 int a2gs_DLL_DeleteBottomValue(a2gs_DLL_Control_t *list);
-int a2gs_DLL_Delete(a2gs_DLL_Control_t *list);
-void a2gs_DLL_Destroy(a2gs_DLL_Control_t *list);
+---int a2gs_DLL_Delete(a2gs_DLL_Control_t *list);
+---void a2gs_DLL_Destroy(a2gs_DLL_Control_t *list);
 */
 
 
@@ -109,7 +110,7 @@ void a2gs_DLL_Destroy(a2gs_DLL_Control_t *list);
 		return(-1);
 	}
 
-	if(a2gs_DLL_AddNode(list, (char *) s, strlen(s)) == A2GS_DLL_ERRO){
+	if(a2gs_DLL_AddNode(list, (char *) s, strlen((const char *)s)) == A2GS_DLL_ERRO){
 		printf("Erro adding a element 4: [%s] Error code: [%d].\n", A2GS_DLL_GET_ERRORMSG(list), A2GS_DLL_GET_ERRORCOD(list));
 		return(-1);
 	}
@@ -123,16 +124,16 @@ void a2gs_DLL_Destroy(a2gs_DLL_Control_t *list);
 	for(walker = a2gs_DLL_Fetch(list), i = 0; walker != NULL; walker = a2gs_DLL_Fetch(list), i++){
 		switch(i){ /* See TODO above, it is just a workaround to define the data type stored */
 			case 0:
-				printf("%02d: Stored: [[%s][%d]]\n", i, ((userType1_t *)walker)->a, ((userType1_t *)walker)->b);
+				printf("%02d: Stored: [[%s][%d]]\n", i+1, ((userType1_t *)walker)->a, ((userType1_t *)walker)->b);
 				break;
 			case 1:
-				printf("%02d: Stored: [[%s][%f]]\n", i, ((userType2_t *)walker)->c, ((userType2_t *)walker)->d);
+				printf("%02d: Stored: [[%s][%2.1f]]\n", i+1, ((userType2_t *)walker)->c, ((userType2_t *)walker)->d);
 				break;
 			case 2:
-				printf("%02d: Stored: [%d]\n", i, *((int *)walker));
+				printf("%02d: Stored: [%d]\n", i+1, *((int *)walker));
 				break;
 			case 3:
-				printf("%02d: Stored: [%s]\n", i, (char *)walker);
+				printf("%02d: Stored: [%s]\n", i+1, (char *)walker);
 				break;
 		}
 	}

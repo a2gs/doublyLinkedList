@@ -76,6 +76,11 @@ int a2gs_DLL_Create(a2gs_DLL_Control_t **list)
 	return(A2GS_DLL_OK);
 }
 
+/* TODO: return the element previous after last fetch */
+void * a2gs_DLL_Previous(a2gs_DLL_Control_t *list)
+{
+	return((void *)list);
+}
 
 /* void * a2gs_DLL_FetchDLL(a2gs_DLL_Control_t *list)
  *
@@ -86,7 +91,6 @@ int a2gs_DLL_Create(a2gs_DLL_Control_t **list)
  * OUTPUT:
  *  Endereco do valor apontado
  */
-
 void * a2gs_DLL_Fetch(a2gs_DLL_Control_t *list)
 {
 	void *value = NULL;
@@ -148,6 +152,7 @@ int a2gs_DLL_AddNode(a2gs_DLL_Control_t *list, void *value, size_t valueSize)
 		A2GS_DLL_SET_ERRO(list, a2gs_DLL_EAllocMemory, erroMsgAux);
 		return(A2GS_DLL_ERRO);
 	}
+	memset(node, 0, sizeof(a2gs_DLL_Node_t));
 
 	/* we take a value copy */
 	if((node->value = malloc(valueSize)) == NULL){
@@ -158,7 +163,7 @@ int a2gs_DLL_AddNode(a2gs_DLL_Control_t *list, void *value, size_t valueSize)
 		return(A2GS_DLL_ERRO);
 	}
 
-	memcpy(node->value, value, valueSize);
+	memcpy(node->value, (const void *) value, valueSize);
 
 	node->next = NULL;
 	node->prev = list->end;
