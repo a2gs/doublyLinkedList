@@ -76,13 +76,13 @@ int a2gs_DLL_Create(a2gs_DLL_Control_t **list)
 	return(A2GS_DLL_OK);
 }
 
-/* TODO: return the element previous after last fetch */
+/* TODO: return the element previous after last next */
 void * a2gs_DLL_Previous(a2gs_DLL_Control_t *list)
 {
 	return((void *)list);
 }
 
-/* void * a2gs_DLL_FetchDLL(a2gs_DLL_Control_t *list)
+/* void * a2gs_DLL_Next(a2gs_DLL_Control_t *list)
  *
  * Retorna o valor apontado pelo ponteiro de 'fetching' de uma determinada lista.
  *
@@ -91,7 +91,7 @@ void * a2gs_DLL_Previous(a2gs_DLL_Control_t *list)
  * OUTPUT:
  *  Endereco do valor apontado
  */
-void * a2gs_DLL_Fetch(a2gs_DLL_Control_t *list)
+void * a2gs_DLL_Next(a2gs_DLL_Control_t *list)
 {
 	void *value = NULL;
 
@@ -109,16 +109,16 @@ void * a2gs_DLL_Fetch(a2gs_DLL_Control_t *list)
 }
 
 
-/* void a2gs_DLL_StartFetch(a2gs_DLL_Control_t *list)
+/* void a2gs_DLL_StartWalk(a2gs_DLL_Control_t *list)
  *
- * Inicializa o fetch para inicio da lista.
+ * Inicializa o next/previous para inicio da lista.
  *
  * INPUT:
  *  list - Ponteiro para uma struct de controle de uma lista criada
  * OUTPUT:
  *  Nenhum
  */
-void a2gs_DLL_StartFetch(a2gs_DLL_Control_t *list)
+void a2gs_DLL_StartWalk(a2gs_DLL_Control_t *list)
 {
 	A2GS_DLL_CLEAN_ERRO(list);
 

@@ -73,8 +73,8 @@ int main(int argc, char *argv[])
 
 	/*
 ---int a2gs_DLL_Create(a2gs_DLL_Control_t **list);
----void a2gs_DLL_StartFetch(a2gs_DLL_Control_t *list);                                                                 
----void * a2gs_DLL_Fetch(a2gs_DLL_Control_t *list);
+---void a2gs_DLL_StartWalker(a2gs_DLL_Control_t *list);                                                                 
+---void * a2gs_DLL_Next(a2gs_DLL_Control_t *list);
 void * a2gs_DLL_Previous(a2gs_DLL_Control_t *list);
 ---int a2gs_DLL_AddNode(a2gs_DLL_Control_t *list, void *value, size_t valueSize);
 void * a2gs_DLL_GetLastValue(a2gs_DLL_Control_t *list);
@@ -119,9 +119,9 @@ int a2gs_DLL_DeleteBottomValue(a2gs_DLL_Control_t *list);
 
 	printf("Listing:\n");
 
-	a2gs_DLL_StartFetch(list);
+	a2gs_DLL_StartWalk(list);
 
-	for(walker = a2gs_DLL_Fetch(list), i = 0; walker != NULL; walker = a2gs_DLL_Fetch(list), i++){
+	for(walker = a2gs_DLL_Next(list), i = 0; walker != NULL; walker = a2gs_DLL_Next(list), i++){
 		switch(i){ /* See TODO above, it is just a workaround to define the data type stored */
 			case 0:
 				printf("%02d: Stored: [[%s][%d]]\n", i+1, ((userType1_t *)walker)->a, ((userType1_t *)walker)->b);
