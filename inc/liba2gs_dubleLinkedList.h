@@ -35,6 +35,9 @@
 #define A2GS_DLL_MSG4 ("Unknow node")
 #define A2GS_DLL_MSG5 ("There are not nodes to delete")
 
+#define A2GS_DLL_GET_ERRORMSG(x)	(x.erroMsg)
+#define A2GS_DLL_GET_ERRORCOD(x)	(x.erro)
+
 
 /* *** DATA TYPES *** */
 typedef enum{
@@ -52,8 +55,8 @@ typedef struct _a2gs_DLL_Node_t{
 typedef struct _a2gs_DLL_Control_t{
 	a2gs_DLL_Node_t *start, *now, *end;     /* Important list Address */
 	unsigned long total;                    /* Total nodes */
-	a2gs_DLL_Erro_t erro;                   /* Last error */
-	char erroMsg[A2GS_DLL_ERROMSG_SIZE+ 1]; /* Last error string msg */
+	a2gs_DLL_Erro_t erro;                   /* If a error had happen calling a dunction, this is the return */
+	char erroMsg[A2GS_DLL_ERROMSG_SIZE+ 1]; /* If a error had happen calling a dunction, this is the error message */
 }a2gs_DLL_Control_t;
 
 
@@ -67,6 +70,20 @@ typedef struct _a2gs_DLL_Control_t{
 	 * OUTPUT:
 	 *  <None>
 	 */
+int a2gs_DLL_Create(a2gs_DLL_Control_t **list);
+void a2gs_DLL_StartFetch(a2gs_DLL_Control_t *list);
+void * a2gs_DLL_Fetch(a2gs_DLL_Control_t *list);
+int a2gs_DLL_AddNode(a2gs_DLL_Control_t *list, void *value, size_t valueSize);
+void * a2gs_DLL_GetLastValue(a2gs_DLL_Control_t *list);
+int a2gs_DLL_RemoveNodeValue(a2gs_DLL_Control_t *list, a2gs_DLL_Node_t *node);
+void * a2gs_DLL_GetCurrentNodeValue(a2gs_DLL_Control_t *list);
+void * a2gs_DLL_GetValueFromThisNode(a2gs_DLL_Node_t *node);
+a2gs_DLL_Node_t * a2gs_DLL_SearchNode(a2gs_DLL_Control_t *list, void *value, size_t valueSize, unsigned int offset);
+int a2gs_DLL_DeleteTopValue(a2gs_DLL_Control_t *list);
+unsigned long a2gs_DLL_GetTotal(a2gs_DLL_Control_t *list);
+int a2gs_DLL_DeleteBottomValue(a2gs_DLL_Control_t *list);
+int a2gs_DLL_Delete(a2gs_DLL_Control_t *list);
+void a2gs_DLL_Destroy(a2gs_DLL_Control_t *list);
 
 
 /* *** EXAMPLE *** */

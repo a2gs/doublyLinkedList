@@ -28,7 +28,7 @@ libDDlinked: $(SOURCES)
 	-$(RM) $(OBJ)
 
 sample: clean libDDlinked
-	$(CC) -o $(BINDIR)/sample $(SRCDIR)/sample.c $(CFLAGS) -I$(INCDIR) -L$(BINDIR) -la2gs_dubleLinkedList
+	$(CC) -o $(BINDIR)/sample $(SRCDIR)/sample.c $(CFLAGS) -I$(INCDIR) -L$(BINDIR) -la2gs_dubleLinkedList -Wno-unused-parameter
 
 clean:
 	-$(RM) $(BINDIR)/*

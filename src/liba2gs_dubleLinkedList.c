@@ -28,14 +28,14 @@
 
 
 /* *** DEFINES AND LOCAL DATA TYPE DEFINATION *** */
-#define A2GS_DLL_CLEAN_ERRO(__list_){                                       \
-                                            (__list_)->erro = a2gs_DLL_EOk; \
-                                            (__list_)->erroMsg[0] = '\0';          \
-	                                        }
-#define A2GS_DLL_SET_ERRO(__list_, __erro_, __erroMsg_){                                                                        \
-                                                                (__list_)->erro = __erro_;                                             \
-                                                                strncpy((__list_)->erroMsg, __erroMsg_, A2GS_DLL_ERROMSG_SIZE); \
-	                                                           }
+#define A2GS_DLL_CLEAN_ERRO(__list_){                                \
+                                     (__list_)->erro = a2gs_DLL_EOk; \
+                                     (__list_)->erroMsg[0] = '\0';   \
+	                                 }
+#define A2GS_DLL_SET_ERRO(__list_, __erro_, __erroMsg_){                                                                \
+                                                        (__list_)->erro = __erro_;                                      \
+                                                        strncpy((__list_)->erroMsg, __erroMsg_, A2GS_DLL_ERROMSG_SIZE); \
+	                                                    }
 
 
 /* *** LOCAL PROTOTYPES *** */
@@ -236,14 +236,15 @@ int a2gs_DLL_RemoveNodeValue(a2gs_DLL_Control_t *list, a2gs_DLL_Node_t *node)
 	return(A2GS_DLL_OK);
 }
 
-void * a2gs_DLL_GetCurrentNodeValure(a2gs_DLL_Control_t *list)
+void * a2gs_DLL_GetCurrentNodeValue(a2gs_DLL_Control_t *list)
 {
 	A2GS_DLL_CLEAN_ERRO(list);
 
 	return(list->now->value);
 }
 
-void * a2gs_DLL_GetValueFromThisNode(a2gs_DLL_Node_t *node){
+void * a2gs_DLL_GetValueFromThisNode(a2gs_DLL_Node_t *node)
+{
 	return(node->value);
 }
 
@@ -427,15 +428,3 @@ void a2gs_DLL_Destroy(a2gs_DLL_Control_t *list)
 	free(list);
 	return;
 }
-
-
-/* TODO: SAMPLE USAGE */
-#if 0
-int main(int argc, char *argv[])
-{
-
-	printf("TODO: a API sample usage\n");
-
-	return(0);
-}
-#endif
