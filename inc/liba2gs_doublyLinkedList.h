@@ -35,8 +35,8 @@
 #define A2GS_DLL_MSG4 ("Unknow node")
 #define A2GS_DLL_MSG5 ("There are not nodes to delete")
 
-#define A2GS_DLL_GET_ERRORMSG(x)	(x->erroMsg)
-#define A2GS_DLL_GET_ERRORCOD(x)	(x->erro)
+#define A2GS_DLL_GET_ERRORMSG(__A2GS_DLL_GET_ERRORMSG_x__)	(__A2GS_DLL_GET_ERRORMSG_x__->erroMsg)
+#define A2GS_DLL_GET_ERRORCOD(__A2GS_DLL_GET_ERRORCOD_y__)	(__A2GS_DLL_GET_ERRORCOD_y__->erro)
 
 
 /* *** DATA TYPES *** */
