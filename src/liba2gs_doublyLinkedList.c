@@ -31,11 +31,11 @@
 #define A2GS_DLL_CLEAN_ERRO(__list_){                                \
                                      (__list_)->erro = a2gs_DLL_EOk; \
                                      (__list_)->erroMsg[0] = '\0';   \
-	                                 }
+	                            }
 #define A2GS_DLL_SET_ERRO(__list_, __erro_, __erroMsg_){                                                                \
                                                         (__list_)->erro = __erro_;                                      \
                                                         strncpy((__list_)->erroMsg, __erroMsg_, A2GS_DLL_ERROMSG_SIZE); \
-	                                                    }
+	                                               }
 
 
 /* *** LOCAL PROTOTYPES *** */
