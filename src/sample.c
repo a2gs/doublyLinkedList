@@ -36,8 +36,7 @@ typedef struct _userType2_t{
 	float d;
 }userType2_t;
 
-typedef enum
-{
+typedef enum{
 	VAR1 = 1,
 	VAR2,
 	STR,
