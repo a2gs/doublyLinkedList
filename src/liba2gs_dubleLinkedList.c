@@ -383,6 +383,7 @@ int a2gs_DLL_DeleteBottomValue(a2gs_DLL_Control_t *list)
 
 	free(node->value);
 	free(node);
+
 	return(A2GS_DLL_OK);
 }
 
