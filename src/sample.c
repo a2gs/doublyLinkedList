@@ -66,19 +66,19 @@ void printAll(a2gs_DLL_Control_t *list)
 		/* kkkk .... are you read to C poiter-fu? */
 		switch(((genericElement_t *)walker)->type){
 			case VAR1:
-				printf("%02d: Stored: [[%s][%d]]\n", i, ((userType1_t *)((genericElement_t *)walker)->data)->a, ((userType1_t *)((genericElement_t *)walker)->data)->b);
+				printf("\t%2d: Stored: [[%s][%d]]\n", i, ((userType1_t *)((genericElement_t *)walker)->data)->a, ((userType1_t *)((genericElement_t *)walker)->data)->b);
 				break;
 			case VAR2:
-				printf("%02d: Stored: [[%s][%2.2f]]\n", i, ((userType2_t *)((genericElement_t *)walker)->data)->c, ((userType2_t *)((genericElement_t *)walker)->data)->d);
+				printf("\t%2d: Stored: [[%s][%2.2f]]\n", i, ((userType2_t *)((genericElement_t *)walker)->data)->c, ((userType2_t *)((genericElement_t *)walker)->data)->d);
 				break;
 			case INT:
-				printf("%02d: Stored: [%d]\n", i, (*(int *)((genericElement_t *)walker)->data));
+				printf("\t%2d: Stored: [%d]\n", i, (*(int *)((genericElement_t *)walker)->data));
 				break;
 			case STR:
-				printf("%02d: Stored: [%s]\n", i, ((char *)((genericElement_t *)walker)->data));
+				printf("\t%2d: Stored: [%s]\n", i, ((char *)((genericElement_t *)walker)->data));
 				break;
 			case UNKNOW:
-				printf("%02d: Stored: [UNKNOW TYPE]\n", i);
+				printf("\t%2d: Stored: [UNKNOW TYPE]\n", i);
 				break;
 		}
 	}
@@ -91,16 +91,18 @@ int main(int argc, char *argv[])
 	userType1_t var1 = {.a = "sample 1", .b = 81};
 	userType2_t var2 = {.c = "sample 2", .d = 13.8};
 	userType2_t var3 = {.c = "sample 3", .d = 3.14};
+	userType2_t var4 = {.c = "sample 5", .d = 2.71};
 	int x = 10;
 	char *s = "sample 4";
 	unsigned int i = 0;
 	genericElement_t elements[] = {
 		{.data = &var1, .type = VAR1},
 		{.data = &var2, .type = VAR2},
-		{.data = &x, .type = INT},
-		{.data = s, .type = STR},
+		{.data = &x,    .type = INT},
+		{.data = s,     .type = STR},
 		{.data = &var3, .type = VAR2},
-		{.data = NULL, .type = UNKNOW}
+		{.data = &var4, .type = VAR1},
+		{.data = NULL,  .type = UNKNOW}
 	};
 
 	/*
@@ -140,28 +142,31 @@ a2gs_DLL_Node_t * a2gs_DLL_SearchNode(a2gs_DLL_Control_t *list, void *value, siz
 	 * genericElement_t had been created to help identify the data's type, but the DLL can be whole of the same (well know) type.
 	 */
 
+	printf("1) Inserting:\n", i);
 	for(i = 0; elements[i].data != NULL; i++){
+		printf("\t%d element...\n", i);
 		if(a2gs_DLL_AddNode(list, &elements[i], sizeof(genericElement_t)) == A2GS_DLL_ERRO){
 			printf("Erro adding a element %d: [%s] Error code: [%d].\n", i, A2GS_DLL_GET_ERRORMSG(list), A2GS_DLL_GET_ERRORCOD(list));
 			return(-1);
 		}
 	}
 
-	printf("Total inserted: [%ld]\n", a2gs_DLL_GetTotal(list));
+	printf("\n* Total inserted: [%ld]\n\n", a2gs_DLL_GetTotal(list));
 
-	printf("Listing:\n");
+	printf("2) Listing:\n");
 
 	a2gs_DLL_StartWalk(list);
 
 	printAll(list);
 
-
-
+	printf("\n3) Deleting the top element.\n\n");
 	a2gs_DLL_DeleteTopValue(list);
-	a2gs_DLL_DeleteBottomValue(list);
-	printf("Total remaining: [%ld]\n", a2gs_DLL_GetTotal(list));
-	printf("Listing after deleting top and bottom elements:\n");
 
+	printf("4) Deleting the bottom element.\n\n");
+	a2gs_DLL_DeleteBottomValue(list);
+	printf("* Total remaining: [%ld]\n\n", a2gs_DLL_GetTotal(list));
+
+	printf("5) Listing after deleting top and bottom elements:\n");
 
 	a2gs_DLL_StartWalk(list);
 	printAll(list);
