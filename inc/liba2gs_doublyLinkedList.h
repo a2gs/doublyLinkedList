@@ -1,15 +1,15 @@
 /* Andre augusto Giannotti Scota
  * andre.scota@gmail.com
  *
- * A Duble Linked List (DLL) API
+ * A Doubly Linked List (DLL) API
  *
  * Public Doamin
  *
  */
 
 
-/* dubleLinkedList.h
- * A Duble Linked List implementation
+/* doublyinkedList.h
+ * A Doubly Linked List implementation
  *
  *
  *  Who     | When       | What

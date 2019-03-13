@@ -2,15 +2,15 @@
 /* Andre Augusto Giannotti Scota
  * andre.scota@gmail.com
  *
- * A Duble Linked List (DLL) API
+ * A Doubly Linked List (DLL) API
  *
  * Public Doamin
  *
  */
 
 
-/* dubleLinkedList.c
- * A Duble Linked List implementation
+/* doublyLinkedList.c
+ * A Doubly Linked List implementation
  *
  *
  *  Who     | When       | What
@@ -22,7 +22,7 @@
 /* *** INCLUDES *** */
 #include <stdio.h>
 #include <string.h>
-#include "liba2gs_dubleLinkedList.h"
+#include "liba2gs_doublyLinkedList.h"
 
 
 /* *** DEFINES AND LOCAL DATA TYPE DEFINATION *** */
@@ -142,7 +142,7 @@ a2gs_DLL_Node_t * a2gs_DLL_SearchNode(a2gs_DLL_Control_t *list, void *value, siz
 	 * genericElement_t had been created to help identify the data's type, but the DLL can be whole of the same (well know) type.
 	 */
 
-	printf("1) Inserting:\n", i);
+	printf("1) Inserting:\n");
 	for(i = 0; elements[i].data != NULL; i++){
 		printf("\t%d element...\n", i);
 		if(a2gs_DLL_AddNode(list, &elements[i], sizeof(genericElement_t)) == A2GS_DLL_ERRO){

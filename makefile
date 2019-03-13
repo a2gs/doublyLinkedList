@@ -15,20 +15,20 @@ CFLAGS = $(CFLAGS_OPTIMIZATION) $(CFLAGS_VERSION) $(CFLAGS_WARNINGS) $(CFLAGS_DE
 
 RM = rm -rf
 
-OBJ = $(BINDIR)/liba2gs_dubleLinkedList.o
-LIB = $(BINDIR)/liba2gs_dubleLinkedList.a
-SOURCES = $(SRCDIR)/liba2gs_dubleLinkedList.c
+OBJ = $(BINDIR)/liba2gs_doublyLinkedList.o
+LIB = $(BINDIR)/liba2gs_doublyLinkedList.a
+SOURCES = $(SRCDIR)/liba2gs_doublyLinkedList.c
 
-all: clean libDDlinked
+all: clean libDLlinked
 
-libDDlinked: $(SOURCES)
+libDLlinked: $(SOURCES)
 	$(CC) -c -o$(OBJ) -I$(INCDIR) $(SOURCES) $(CFLAGS) -Wno-unused-variable
 	$(AR) rc $(LIB) $(OBJ)
 	$(RANLIB) $(LIB)
 	-$(RM) $(OBJ)
 
-sample: clean libDDlinked
-	$(CC) -o $(BINDIR)/sample $(SRCDIR)/sample.c $(CFLAGS) -I$(INCDIR) -L$(BINDIR) -la2gs_dubleLinkedList -Wno-unused-parameter
+sample: clean libDLlinked
+	$(CC) -o $(BINDIR)/sample $(SRCDIR)/sample.c $(CFLAGS) -I$(INCDIR) -L$(BINDIR) -la2gs_doublyLinkedList -Wno-unused-parameter
 
 clean:
 	-$(RM) $(BINDIR)/*

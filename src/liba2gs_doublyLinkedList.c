@@ -1,15 +1,15 @@
 /* Andre Augusto Giannotti Scota
  * andre.scota@gmail.com
  *
- * A Duble Linked List (DLL) API
+ * A Doubly Linked List (DLL) API
  *
  * Public Doamin
  *
  */
 
 
-/* dubleLinkedList.c
- * A Duble Linked List implementation
+/* doublyLinkedList.c
+ * A Doubly Linked List implementation
  *
  *
  *  Who     | When       | What
@@ -24,7 +24,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
-#include "liba2gs_dubleLinkedList.h"
+#include "liba2gs_doublyLinkedList.h"
 
 
 /* *** DEFINES AND LOCAL DATA TYPE DEFINATION *** */
