@@ -1,4 +1,3 @@
-
 /* Andre Augusto Giannotti Scota
  * andre.scota@gmail.com
  *
