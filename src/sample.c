@@ -61,7 +61,7 @@ void printAll(a2gs_DLL_Control_t *list)
 	unsigned int i = 0;
 
 	for(walker = a2gs_DLL_Next(list), i = 0; walker != NULL; walker = a2gs_DLL_Next(list), i++){
-		/* kkkk .... are you read to C poiter-fu? */
+		/* kkkk .... are you ready to C poiter-fu? */
 		switch(((genericElement_t *)walker)->type){
 			case VAR1:
 				printf("\t%2d: Stored: [[%s][%d]]\n", i, ((userType1_t *)((genericElement_t *)walker)->data)->a, ((userType1_t *)((genericElement_t *)walker)->data)->b);
