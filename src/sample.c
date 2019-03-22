@@ -171,6 +171,21 @@ a2gs_DLL_Node_t * a2gs_DLL_SearchNode(a2gs_DLL_Control_t *list, void *value, siz
 
 
 
+
+
+
+
+	/*
+	void * a2gs_DLL_Previous(a2gs_DLL_Control_t *list);
+	void * a2gs_DLL_GetLastValue(a2gs_DLL_Control_t *list);
+	int a2gs_DLL_RemoveNodeValue(a2gs_DLL_Control_t *list, a2gs_DLL_Node_t *node);
+	void * a2gs_DLL_GetCurrentNodeValue(a2gs_DLL_Control_t *list);
+	void * a2gs_DLL_GetValueFromThisNode(a2gs_DLL_Node_t *node);
+	a2gs_DLL_Node_t * a2gs_DLL_SearchNode(a2gs_DLL_Control_t *list, void *value, size_t valueSize, unsigned int offset);
+	*/
+
+
+
 	/* Deleting all elements */
 	a2gs_DLL_Delete(list);
 
