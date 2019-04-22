@@ -3,7 +3,7 @@
  *
  * A Doubly Linked List (DLL) sample
  *
- * Public Doamin
+ * MIT License
  *
  */
 
