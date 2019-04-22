@@ -3,7 +3,7 @@
  *
  * A Doubly Linked List (DLL) API
  *
- * Public Doamin
+ * MIT License
  *
  */
 
